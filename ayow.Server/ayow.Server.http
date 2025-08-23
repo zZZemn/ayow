@@ -1,0 +1,6 @@
+@ayow.Server_HostAddress = http://localhost:5171
+
+GET {{ayow.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
