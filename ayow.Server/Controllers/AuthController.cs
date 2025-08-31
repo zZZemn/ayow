@@ -47,11 +47,15 @@ namespace ayow.Server.Controllers
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { Message = "User registered successfully.", token, role = user.Role });
+            return Ok(new
+            {
+                Message = "user registered in successfully.",
+                Auth = new { token, user }
+            });
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest req)
+        public async Task<IActionResult> Login([FromBody] LoginDTO req)
         {
             var user = await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Email == req.Email);
@@ -61,7 +65,11 @@ namespace ayow.Server.Controllers
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new { Message = "User logged in successfully.", token, role = user.Role });
+            return Ok(new
+            {
+                Message = "user logged in successfully.",
+                Auth = new { token, user }
+            });
         }
 
         private string GenerateJwtToken(User user)
@@ -90,7 +98,7 @@ namespace ayow.Server.Controllers
         }
     }
 
-    public class LoginRequest
+    public class LoginDTO
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
