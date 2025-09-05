@@ -1,7 +1,8 @@
 import path from "path";
-import Login from "./pages/auth/Login";
+import Login from "./pages/Auth/Login";
 import Home from "./pages/Home";
 import Weather from "./pages/Weather";
+import AdminDashboard from "./pages/Admin/Home";
 
 const AppRoutes = [
     {
@@ -15,6 +16,10 @@ const AppRoutes = [
     {
         path: "/weather",
         element: <Weather />
+    },
+    {
+        path: "/admin",
+        element: <AdminDashboard />
     }
 ];
 

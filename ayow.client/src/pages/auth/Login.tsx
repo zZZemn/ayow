@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { LoginDTO } from "../../types/LoginDTO";
 import { login } from "../../services/AuthService";
+import GuestLayout from "../Layout/GuestLayout";
+import TextInput from "../../components/TextInput";
+import PrimaryButton from "../../components/PrimaryButton";
 
 function Login() {
     const [credentials, setCredentials] = useState<LoginDTO>({
@@ -16,71 +19,50 @@ function Login() {
             sessionStorage.setItem("accessToken", res.auth.token);
             sessionStorage.setItem("userRole", res.auth.user.role);
 
-            console.log("Login success:", res);
-            console.log("Stored token + role:", {
-                token: res.auth.token,
-                role: res.auth.user.role
-            });
-
-            // if (res.role === "Admin") {
-            //     window.location.href = "/admin";
-            // } else {
-            //     window.location.href = "/dashboard";
-            // }
+            window.location.reload();
 
         } catch (error) {
             console.error("Login error:", error);
         }
     };
 
-    async function getProtectedTest() {
-        const token = sessionStorage.getItem("accessToken");
-
-        console.log(token);
-
-        const response = await fetch("template/test", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Unauthorized or failed request");
-        }
-    }
-
-
     return (
-        <div>
-            <h1>Login</h1>
+        <GuestLayout>
+            <div>
+                <h1 className="text-center">Login</h1>
 
-            <form onSubmit={handleLogin}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={credentials.email}
-                    onChange={(e) =>
-                        setCredentials({ ...credentials, email: e.target.value })
-                    }
-                />
+                <form onSubmit={handleLogin}>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={credentials.password}
-                    onChange={(e) =>
-                        setCredentials({ ...credentials, password: e.target.value })
-                    }
-                />
+                    <div>
+                        <TextInput
+                            type="email"
+                            placeholder="Email"
+                            className="mt-3 w-full"
+                            value={credentials.email}
+                            onChange={(e) =>
+                                setCredentials({ ...credentials, email: e.target.value })
+                            }
+                        />
+                    </div>
 
-                <button type="submit">Login</button>
-            </form>
+                    <div>
+                        <TextInput
+                            type="password"
+                            placeholder="Password"
+                            className="mt-3 w-full"
+                            value={credentials.password}
+                            onChange={(e) =>
+                                setCredentials({ ...credentials, password: e.target.value })
+                            }
+                        />
+                    </div>
 
-
-            <button onClick={getProtectedTest}>Test Auth</button>
-        </div>
+                    <div className="flex justify-end">
+                        <PrimaryButton type="submit" className="mt-3"><span>Login</span></PrimaryButton>
+                    </div>
+                </form>
+            </div>
+        </GuestLayout>
     );
 }
 

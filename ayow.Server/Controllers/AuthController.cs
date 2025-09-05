@@ -6,6 +6,7 @@ using System.Text;
 using ayow.Server.Data;
 using ayow.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ayow.Server.Controllers
 {
@@ -71,6 +72,27 @@ namespace ayow.Server.Controllers
                 Auth = new { token, user }
             });
         }
+
+        [HttpGet("verify")]
+        [Authorize]
+        public IActionResult Verify()
+        {
+            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            var email = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new
+            {
+                Message = "User verified successfully.",
+                Auth = new
+                {
+                    Id = userId,
+                    Email = email,
+                    Role = role
+                }
+            });
+        }
+
 
         private string GenerateJwtToken(User user)
         {

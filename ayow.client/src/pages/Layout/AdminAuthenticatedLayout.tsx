@@ -1,0 +1,140 @@
+import { useState, useEffect, type ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import ApplicationLogo from "../../components/ApplicationLogo";
+import PrimaryButton from "../../components/PrimaryButton";
+
+import { Menu, X } from "lucide-react";
+import { IoCaretDown } from "react-icons/io5";
+
+interface AdminAuthenticatedLayoutProps {
+    children: ReactNode;
+}
+
+export default function AdminAuthenticatedLayout({ children }: AdminAuthenticatedLayoutProps) {
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
+
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const res = await fetch("/auth/verify", {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+                    },
+                });
+
+                if (!res.ok) {
+                    handleLogout();
+                    return;
+                }
+
+                const data = await res.json();
+                const role = data.auth.role;
+
+                if (role !== "ADMIN") {
+                    handleLogout();
+                }
+
+            } catch (err) {
+                handleLogout();
+            } finally {
+                setIsAuthChecked(true);
+            }
+        };
+
+        if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
+            checkAuth();
+        }
+    }, [isAuthChecked, navigate]);
+
+    if (!isAuthChecked) {
+        return <div className="flex h-screen items-center justify-center">Checking authentication...</div>;
+    }
+
+    const handleLogout = () => {
+        // add loading here
+        sessionStorage.removeItem("accessToken");
+        navigate("/login");
+    }
+
+    return (
+        <div className="">
+
+            <nav className="flex items-center justify-between bg-gray-800 p-4 px-6 text-white">
+                <div className="flex items-center">
+                    <ApplicationLogo className="h-10" />
+                </div>
+
+                <ul className="hidden gap-8 md:flex">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li className="relative">
+                        <button
+                            onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                            className="flex cursor-pointer items-center gap-1"
+                        >
+                            Services <IoCaretDown />
+                        </button>
+
+                        {isProfileDropdownOpen && (
+                            <ul className="absolute right-0 mt-2 w-26 rounded-b-sm bg-gray-800 shadow-gray-600 shadow-md">
+                                <li><a href="#" className="block p-2 hover:bg-gray-700">Web Dev</a></li>
+                                <li><a href="#" className="block p-2 hover:bg-gray-700">Mobile App</a></li>
+                                <li><a href="#" className="block p-2 hover:bg-gray-700">Consulting</a></li>
+                                <button onClick={handleLogout} className="hover:bg-gray-700 flex p-2 w-full cursor-pointer rounded-b-sm">Logout</button>
+                            </ul>
+                        )}
+                    </li>
+                </ul>
+
+
+
+                <button
+                    className="cursor-pointer md:hidden text-2xl"
+                    onClick={() => setIsNavOpen(!isNavOpen)}
+                >
+                    {isNavOpen ? <X /> : <Menu />}
+                </button>
+
+                {isNavOpen && (
+                    <ul className="absolute left-0 top-18 flex w-full flex-col gap-1 pb-1 bg-gray-800 border-t-2 border-gray-700 md:hidden">
+                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Home</a></li>
+                        <li><a href="#" className="hover:bg-gray-700 flex p-2">About</a></li>
+                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Services</a></li>
+                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Contact</a></li>
+
+                        <li>
+                            <button
+                                onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                                className="hover:bg-gray-700 cursor-pointer flex items-center w-full p-2"
+                            >
+                                Services <IoCaretDown />
+                            </button>
+
+                            {isProfileDropdownOpen && (
+                                <ul className="mt-1 flex flex-col gap-1">
+                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Web Dev</a></li>
+                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Mobile App</a></li>
+                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Consulting</a></li>
+                                    <li>
+                                        <button onClick={handleLogout} className="hover:bg-gray-700 flex p-2 w-full cursor-pointer">Logout</button>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                    </ul>
+                )}
+            </nav>
+
+            <div className="bg-gray-50">
+                {children}
+            </div>
+        </div>
+    );
+}
