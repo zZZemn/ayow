@@ -32,7 +32,6 @@ namespace ayow.Server.Models
         [MaxLength(20)]
         public string ContactNo { get; set; } = string.Empty;
 
-        [JsonIgnore]
         [Required, MaxLength(255)]
         public string Password { get; set; } = string.Empty;
 

@@ -43,12 +43,12 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
             }
         };
 
-        if (!isAuthChecked) {
+        if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
             checkAuth();
         }
     }, [isAuthChecked, navigate]);
 
-    if (!isAuthChecked) {
+    if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
         return <div className="flex h-screen items-center justify-center">Checking authentication...</div>;
     }
 

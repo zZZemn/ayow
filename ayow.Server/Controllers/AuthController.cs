@@ -24,24 +24,25 @@ namespace ayow.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] User dto)
         {
-            var errors = new List<object>();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (await _dbContext.Users.AnyAsync(x => x.Email == user.Email))
+            var user = new User
             {
-                errors.Add(new { Field = "Email", Message = "Email already exists." });
-            }
-
-            if (await _dbContext.Users.AnyAsync(x => x.ContactNo == user.ContactNo))
-            {
-                errors.Add(new { Field = "ContactNo", Message = "Contact number already exists." });
-            }
-
-            if (errors.Any())
-            {
-                return BadRequest(new { Errors = errors });
-            }
+                Id = Guid.NewGuid(),
+                FirstName = dto.FirstName,
+                MiddleName = dto.MiddleName,
+                LastName = dto.LastName,
+                BirthDate = dto.BirthDate,
+                Gender = dto.Gender,
+                Country = dto.Country,
+                Email = dto.Email,
+                ContactNo = dto.ContactNo,
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Role = "USER"
+            };
 
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
