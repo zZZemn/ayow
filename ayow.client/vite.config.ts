@@ -59,6 +59,10 @@ export default defineConfig({
             '^/template': {
                 target,
                 secure: false,
+            },
+            '^/word': {
+                target,
+                secure: false,
             }
         },
         port: parseInt(env.DEV_SERVER_PORT || '53029'),

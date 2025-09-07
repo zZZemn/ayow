@@ -4,9 +4,10 @@ import Weather from "./pages/Weather";
 import Register from "./pages/Auth/Register";
 
 import AdminDashboard from "./pages/Admin/Home";
+import AdminWords from "./pages/Admin/Words";
 
 import UserDashboard from "./pages/User/Home";
-    
+
 const AppRoutes = [
     {
         index: true,
@@ -24,10 +25,18 @@ const AppRoutes = [
         path: "/weather",
         element: <Weather />
     },
+
+
+
     {
         path: "/admin",
         element: <AdminDashboard />
     },
+    {
+        path: "/admin/words",
+        element: <AdminWords />
+    },
+
 
 
     {

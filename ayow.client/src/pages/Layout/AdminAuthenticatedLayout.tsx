@@ -2,6 +2,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import ApplicationLogo from "../../components/ApplicationLogo";
 import PrimaryButton from "../../components/PrimaryButton";
+import { NavLink } from "react-router-dom";
 
 import { Menu, X } from "lucide-react";
 import { IoCaretDown } from "react-icons/io5";
@@ -70,7 +71,12 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
                 </div>
 
                 <ul className="hidden gap-8 md:flex">
-                    <li><a href="#">Link</a></li>
+                    <li>
+                        <NavLink
+                            to="/admin/words"
+                        >
+                            Words
+                        </NavLink></li>
                     <li><a href="#">Link</a></li>
                     <li><a href="#">Link</a></li>
                     <li className="relative">

@@ -37,5 +37,11 @@ namespace ayow.Server.Models
 
         [Required, MaxLength(10)]
         public string Role { get; set; } = "USER";
+
+        [Required]
+        public DateTime CreatedAt { get; set; } = TimeZoneInfo.ConvertTimeFromUtc(
+            DateTime.UtcNow,
+            TimeZoneInfo.FindSystemTimeZoneById("Asia/Manila")
+        );
     }
 }
