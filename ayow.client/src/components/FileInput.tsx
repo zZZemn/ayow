@@ -25,7 +25,10 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
             <input
                 {...props}
                 type="file"
-                className={`rounded-md border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 ${className}`}
+                className={`rounded-md border-1 border-gray-800 shadow-sm p-2 cursor-pointer
+                    focus:outline-1
+                    focus:outline-gray-800
+                    ${className}`}
                 ref={localRef}
             />
         );

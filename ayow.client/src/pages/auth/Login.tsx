@@ -4,6 +4,7 @@ import { login } from "../../services/AuthService";
 import GuestLayout from "../Layout/GuestLayout";
 import TextInput from "../../components/TextInput";
 import PrimaryButton from "../../components/PrimaryButton";
+import { NavLink } from "react-router-dom";
 
 function Login() {
     const [credentials, setCredentials] = useState<LoginDTO>({
@@ -29,7 +30,7 @@ function Login() {
     return (
         <GuestLayout>
             <div>
-                <h1 className="text-center">Login</h1>
+                <h1 className="text-center text-3xl text-gray-800 font-bold my-5">Login</h1>
 
                 <form onSubmit={handleLogin}>
 
@@ -57,8 +58,12 @@ function Login() {
                         />
                     </div>
 
+                    <div className="text-xs text-gray-600 mt-2">
+                        Don't have an account? <NavLink to="/register" className="text-blue-600">Register</NavLink>
+                    </div>
+
                     <div className="flex justify-end">
-                        <PrimaryButton type="submit" className="mt-3"><span>Login</span></PrimaryButton>
+                        <PrimaryButton type="submit"><span>Login</span></PrimaryButton>
                     </div>
                 </form>
             </div>

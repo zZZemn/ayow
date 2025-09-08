@@ -15,12 +15,13 @@ function Home() {
         <div>
             <h1>Home</h1>
 
+            <div className='mt-5'></div>
             <PrimaryButton>Test</PrimaryButton>
 
-            <hr />
+            <div className='mt-5'></div>
             <FileInput />
 
-            <hr />
+            <div className='mt-5'></div>
             <TextInput />
         </div>
     );

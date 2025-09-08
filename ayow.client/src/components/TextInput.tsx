@@ -13,7 +13,6 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     ({ type = "text", className = "", isFocused = false, ...props }, ref) => {
         const localRef = useRef<HTMLInputElement>(null);
 
-        // Expose the DOM input element
         useImperativeHandle(ref, () => localRef.current as HTMLInputElement);
 
         useEffect(() => {
@@ -26,9 +25,13 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             <input
                 {...props}
                 type={type}
-                className={`rounded-md border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 ${className}`}
                 ref={localRef}
+                className={`rounded-md border-1 border-gray-800 shadow-sm p-2
+                focus:outline-1
+                focus:outline-gray-800
+                ${className}`}
             />
+
         );
     }
 );
