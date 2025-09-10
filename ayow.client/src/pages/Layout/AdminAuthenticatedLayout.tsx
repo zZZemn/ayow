@@ -1,17 +1,21 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
-import ApplicationLogo from "../../components/ApplicationLogo";
-import PrimaryButton from "../../components/PrimaryButton";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+
+import { useLoading } from '../../context/LoadingContext';
 
 import { Menu, X } from "lucide-react";
 import { IoCaretDown } from "react-icons/io5";
+
+import ApplicationLogo from "../../components/ApplicationLogo";
+
 
 interface AdminAuthenticatedLayoutProps {
     children: ReactNode;
 }
 
 export default function AdminAuthenticatedLayout({ children }: AdminAuthenticatedLayoutProps) {
+    const { isLoading, setIsLoading } = useLoading();
+
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
@@ -20,13 +24,16 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // add loading here
+        setIsLoading(true);
+
         sessionStorage.removeItem("accessToken");
         navigate("/login");
     }
 
     useEffect(() => {
         const checkAuth = async () => {
+            setIsLoading(true);
+
             try {
                 const res = await fetch("/auth/verify", {
                     headers: {
@@ -50,17 +57,16 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
                 handleLogout();
             } finally {
                 setIsAuthChecked(true);
+                setIsLoading(false);
             }
         };
 
         if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
             checkAuth();
+        } else {
+            setIsLoading(false);
         }
     }, [isAuthChecked, navigate]);
-
-    if (!isAuthChecked) {
-        return <div className="flex h-screen items-center justify-center">Checking authentication...</div>;
-    }
 
     return (
         <div className="">

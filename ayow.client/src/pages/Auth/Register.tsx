@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import GuestLayout from "../Layout/GuestLayout";
+
+import type { RegisterDTO } from "../../types/RegisterDTO";
+
+import { register } from "../../services/AuthService";
+
 import TextInput from "../../components/TextInput";
 import PrimaryButton from "../../components/PrimaryButton";
-import type { RegisterDTO } from "../../types/RegisterDTO";
-import { register } from "../../services/AuthService";
-import { NavLink } from "react-router-dom";
 
 function Register() {
     const [form, setForm] = useState<RegisterDTO>({

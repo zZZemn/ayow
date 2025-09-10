@@ -1,17 +1,21 @@
 import { useEffect, useState, useRef } from 'react';
+
 import AdminAuthenticatedLayout from '../Layout/AdminAuthenticatedLayout';
-
-
-import FileInput from '../../components/FileInput';
 
 import type { Word } from '../../types/Word';
 import type { ImportWordsDTO } from '../../types/ImportWordsDTO';
 
 import { getWords, importWords } from '../../services/WordService';
+
+import { useLoading } from '../../context/LoadingContext';
+
 import PrimaryButton from '../../components/PrimaryButton';
+import FileInput from '../../components/FileInput';
 
 
 function AdminWords() {
+    const { setIsLoading } = useLoading();
+
     const [words, setWords] = useState<Word[]>([]);
 
     const fileRef = useRef<HTMLInputElement>(null);
@@ -21,25 +25,24 @@ function AdminWords() {
     }, []);
 
     const handleImportWords = async () => {
-        const file = fileRef.current?.files?.[0];
-        if (!file) {
-            alert("Please select a JSON file");
-            return;
+        setIsLoading(true)
+        try {
+            const file = fileRef.current?.files?.[0]
+
+            if (!file) return alert("Please select a file") // add custom alert
+            if (file.type !== "application/json") return alert("Invalid file type")
+
+            const text = await file.text()
+            const words: ImportWordsDTO[] = JSON.parse(text)
+            await importWords(words)
+            setWords(await getWords())
+        } catch (err) {
+            console.error(err)
+            alert("Something went wrong")
+        } finally {
+            setIsLoading(false)
         }
-
-        if (file.type !== "application/json") {
-            alert("Invalid file type. Only JSON allowed.");
-            return;
-        }
-
-        // Read the file text
-        const text = await file.text();
-        const words: ImportWordsDTO[] = JSON.parse(text);
-
-        const response = importWords(words);
-
-        console.log(response);
-    };
+    }
 
 
 

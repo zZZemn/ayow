@@ -1,10 +1,13 @@
 import { useState } from "react";
-import type { LoginDTO } from "../../types/LoginDTO";
-import { login } from "../../services/AuthService";
+import { NavLink } from "react-router-dom";
 import GuestLayout from "../Layout/GuestLayout";
+
+import type { LoginDTO } from "../../types/LoginDTO";
+
+import { login } from "../../services/AuthService";
+
 import TextInput from "../../components/TextInput";
 import PrimaryButton from "../../components/PrimaryButton";
-import { NavLink } from "react-router-dom";
 
 function Login() {
     const [credentials, setCredentials] = useState<LoginDTO>({

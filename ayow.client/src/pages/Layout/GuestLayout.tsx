@@ -1,5 +1,8 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useLoading } from "../../context/LoadingContext";
+
 import ApplicationLogo from "../../components/ApplicationLogo";
 
 interface GuestLayoutProps {
@@ -7,11 +10,15 @@ interface GuestLayoutProps {
 }
 
 export default function GuestLayout({ children }: GuestLayoutProps) {
+    const { isLoading, setIsLoading } = useLoading();
+
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const checkAuth = async () => {
+            setIsLoading(true);
+
             try {
                 const res = await fetch("/auth/verify", {
                     headers: {
@@ -40,20 +47,21 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
                 sessionStorage.removeItem("accessToken");
             } finally {
                 setIsAuthChecked(true);
+                setIsLoading(false);
             }
         };
 
         if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
             checkAuth();
+        } else {
+            setIsLoading(false);
         }
     }, [isAuthChecked, navigate]);
 
-    if (!isAuthChecked && sessionStorage.getItem("accessToken")) {
-        return <div className="flex h-screen items-center justify-center">Checking authentication...</div>;
-    }
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
+
             <div>
                 <a href="/">
                     <ApplicationLogo className="h-20" />
