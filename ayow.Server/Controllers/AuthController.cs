@@ -78,8 +78,8 @@ namespace ayow.Server.Controllers
         [Authorize]
         public IActionResult Verify()
         {
-            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-            var email = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             return Ok(new
@@ -116,6 +116,10 @@ namespace ayow.Server.Controllers
                 expires: DateTime.UtcNow.AddMinutes(double.Parse(jwtConfig["ExpiresInMinutes"]!)),
                 signingCredentials: creds
             );
+
+            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            var email = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

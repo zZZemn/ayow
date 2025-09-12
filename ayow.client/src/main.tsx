@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { LoadingProvider } from './context/LoadingContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <LoadingProvider>
         <App />
       </LoadingProvider>
     </BrowserRouter>
-  </StrictMode>,
+  // </StrictMode>
 )
