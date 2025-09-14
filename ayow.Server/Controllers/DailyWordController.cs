@@ -27,21 +27,9 @@ namespace ayow.Server.Controllers
             _dailyWordService = dailyWordService;
         }
 
-
-        [HttpGet("test")]
-        [Authorize]
-        public string Test()
-        {
-            return "Protected: only logged-in users see this!";
-        }
-
-        [HttpGet("admin")]
-        [Authorize(Roles = "ADMIN")]
-        public string AdminOnly()
-        {
-            return "Only Admin can see this!";
-        }
-
+        /// <summary>
+        /// get current date word of the current user. also sending the words to the user that don't receive the daily word yet.
+        /// </summary>
         [Authorize(Roles = "USER")]
         [HttpGet("today")]
         public async Task<IActionResult> GetTodayWord()

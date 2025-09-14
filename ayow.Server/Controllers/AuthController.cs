@@ -23,6 +23,9 @@ namespace ayow.Server.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// registration
+        /// </summary>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] User dto)
         {
@@ -61,6 +64,9 @@ namespace ayow.Server.Controllers
             });
         }
 
+        /// <summary>
+        /// login
+        /// </summary>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO req)
         {
@@ -79,6 +85,10 @@ namespace ayow.Server.Controllers
             });
         }
 
+
+        /// <summary>
+        /// verify the token
+        /// </summary>
         [HttpGet("verify")]
         [Authorize]
         public IActionResult Verify()

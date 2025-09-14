@@ -18,6 +18,9 @@ namespace ayow.Server.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// get list of users
+        /// </summary>
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
@@ -25,6 +28,9 @@ namespace ayow.Server.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// get user details using user id
+        /// </summary>
         [HttpGet("{id}")]
         public ActionResult<User> GetUser(Guid id)
         {

@@ -18,7 +18,9 @@ namespace ayow.Server.Controllers
             _dbContext = dbContext;
         }
 
-
+        /// <summary>
+        /// test auth
+        /// </summary>
         [HttpGet("test")]
         [Authorize]
         public string Test()
@@ -26,6 +28,9 @@ namespace ayow.Server.Controllers
             return "Protected: only logged-in users see this!";
         }
 
+        /// <summary>
+        /// test auth for admin role
+        /// </summary>
         [HttpGet("admin")]
         [Authorize(Roles = "ADMIN")]
         public string AdminOnly()

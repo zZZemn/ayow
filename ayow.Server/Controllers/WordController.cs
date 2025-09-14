@@ -19,6 +19,9 @@ namespace ayow.Server.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// import words for admin role: see .csv file template for reference
+        /// </summary>
         [HttpPost("importWords")]
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> ImportWords([FromBody] List<WordDTO> words)
@@ -42,6 +45,9 @@ namespace ayow.Server.Controllers
             return Ok(new { Message = "words imported successfully" });
         }
 
+        /// <summary>
+        /// get list of words for admin role
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> GetWords()
