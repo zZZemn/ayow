@@ -18,6 +18,7 @@ namespace ayow.Server.Services
         public async Task SendWordToAllUsersAsync()
         {
             var today = DateTime.Now;
+            var smsDictionary = new Dictionary<string, SmsInfo>();
 
 
             var users = await _dbContext.Users.Where(u => u.Role == "USER").ToListAsync();
@@ -31,7 +32,7 @@ namespace ayow.Server.Services
             if (!usersWithoutDWToday.Any())
                 return;
 
-            var usersLastReceiveDwDayDict = new Dictionary<Guid, int?>();
+            var usersLastReceiveDwDayDict = new Dictionary<User, int?>();
 
             foreach (var user in usersWithoutDWToday)
             {
@@ -40,11 +41,13 @@ namespace ayow.Server.Services
                     .OrderByDescending(dw => dw.CreatedAt)
                     .FirstOrDefault()?.Word?.Day;
 
-                usersLastReceiveDwDayDict[user.Id] = lastSentDay;
+                usersLastReceiveDwDayDict[user] = lastSentDay;
             }
 
             foreach (var user in usersLastReceiveDwDayDict)
             {
+                var userDetails = user.Key;
+
                 var newWordDayNo = user.Value == null
                 ? 1
                 : user.Value + 1;
@@ -57,10 +60,17 @@ namespace ayow.Server.Services
 
                 var word = new DailyWord
                 {
-                    UserId = user.Key,
+                    UserId = userDetails.Id,
                     WordId = newWordToSend.Id,
                     CreatedAt = today,
                     Word = newWordToSend
+                };
+
+                smsDictionary[userDetails.Id.ToString()] = new SmsInfo
+                {
+                    ContactNo = userDetails.ContactNo,
+                    Name = userDetails.FirstName,
+                    Message = newWordToSend.AyowWord,
                 };
 
                 _dbContext.Add(word);
@@ -111,5 +121,12 @@ namespace ayow.Server.Services
 
             return word;
         }
+    }
+
+    public class SmsInfo
+    {
+        public string ContactNo { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Message { get; set; } = "";
     }
 }
