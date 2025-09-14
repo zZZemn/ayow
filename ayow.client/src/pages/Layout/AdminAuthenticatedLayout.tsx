@@ -73,7 +73,9 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
 
             <nav className="flex items-center justify-between bg-gray-800 p-4 px-6 text-white">
                 <div className="flex items-center">
-                    <ApplicationLogo className="h-10" />
+                    <NavLink to="/admin">
+                        <ApplicationLogo className="h-10" />
+                    </NavLink>
                 </div>
 
                 <ul className="hidden gap-8 md:flex">
@@ -83,8 +85,8 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
                         >
                             Words
                         </NavLink></li>
-                    <li><a href="#">Link</a></li>
-                    <li><a href="#">Link</a></li>
+                    {/* <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li> */}
                     <li className="relative">
                         <button
                             onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
@@ -95,9 +97,9 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
 
                         {isProfileDropdownOpen && (
                             <ul className="absolute right-0 mt-2 w-26 rounded-b-sm bg-gray-800 shadow-gray-600 shadow-md">
+                                {/* <li><a href="#" className="block p-2 hover:bg-gray-700">Link</a></li>
                                 <li><a href="#" className="block p-2 hover:bg-gray-700">Link</a></li>
-                                <li><a href="#" className="block p-2 hover:bg-gray-700">Link</a></li>
-                                <li><a href="#" className="block p-2 hover:bg-gray-700">Link</a></li>
+                                <li><a href="#" className="block p-2 hover:bg-gray-700">Link</a></li> */}
                                 <button onClick={handleLogout} className="hover:bg-gray-700 flex p-2 w-full cursor-pointer rounded-b-sm">Logout</button>
                             </ul>
                         )}
@@ -115,9 +117,9 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
 
                 {isNavOpen && (
                     <ul className="absolute left-0 top-18 flex w-full flex-col gap-1 pb-1 bg-gray-800 border-t-2 border-gray-700 md:hidden">
+                        {/* <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
                         <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
-                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
-                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
+                        <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li> */}
 
                         <li>
                             <button
@@ -129,9 +131,9 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
 
                             {isProfileDropdownOpen && (
                                 <ul className="mt-1 flex flex-col gap-1">
+                                    {/* <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
                                     <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
-                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
-                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li>
+                                    <li><a href="#" className="hover:bg-gray-700 flex p-2">Link</a></li> */}
                                     <li>
                                         <button onClick={handleLogout} className="hover:bg-gray-700 flex p-2 w-full cursor-pointer">Logout</button>
                                     </li>
@@ -142,7 +144,7 @@ export default function AdminAuthenticatedLayout({ children }: AdminAuthenticate
                 )}
             </nav>
 
-            <div className="bg-gray-50">
+            <div className="bg-gray-50 px-2">
                 {children}
             </div>
         </div>

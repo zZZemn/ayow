@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { useLoading } from "../../context/LoadingContext";
 
@@ -63,9 +63,9 @@ export default function GuestLayout({ children }: GuestLayoutProps) {
         <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
 
             <div>
-                <a href="/">
+                <NavLink to="/">
                     <ApplicationLogo className="h-20" />
-                </a>
+                </NavLink>
             </div>
 
             <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">

@@ -11,6 +11,7 @@ import { useLoading } from '../../context/LoadingContext';
 
 import PrimaryButton from '../../components/PrimaryButton';
 import FileInput from '../../components/FileInput';
+import PageTitle from '../../components/PageTitle';
 
 
 function AdminWords() {
@@ -48,12 +49,13 @@ function AdminWords() {
 
     return (
         <AdminAuthenticatedLayout>
-            <div>
-                <h1>Words</h1>
+            <div className='flex justify-between items-center py-3'>
+                <PageTitle title='Words' />
 
-                <div>
-                    <FileInput ref={fileRef} className='my-3' />
-                    <PrimaryButton onClick={handleImportWords}>Import</PrimaryButton>
+
+                <div className='flex items-center gap-1'>
+                    <FileInput ref={fileRef} className='py-1' />
+                    <PrimaryButton onClick={handleImportWords} className='py-1' >Import</PrimaryButton>
                 </div>
             </div>
 

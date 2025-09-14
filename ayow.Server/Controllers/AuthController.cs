@@ -29,6 +29,11 @@ namespace ayow.Server.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            /*
+            note:
+            add validation for duplication of email, contact no
+            */
+
             var user = new User
             {
                 Id = Guid.NewGuid(),

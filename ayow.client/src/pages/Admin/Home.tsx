@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import AdminAuthenticatedLayout from '../Layout/AdminAuthenticatedLayout';
+import PageTitle from '../../components/PageTitle';
 
 function AdminDashboard() {
     return (
         <AdminAuthenticatedLayout>
-            <div>
-                <h1>Admin Home</h1>
+            <div className='flex justify-between items-center py-3'>
+                <PageTitle title='Home' />
             </div>
         </AdminAuthenticatedLayout>
     );
